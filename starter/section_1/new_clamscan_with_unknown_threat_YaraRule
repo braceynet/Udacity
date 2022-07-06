@@ -1,0 +1,12 @@
+root@ubuntu-VirtualBox:/home/ubuntu# clamscan -i -d /home/ClamAV_Report/ /home/ubuntu/Downloads/
+/home/ubuntu/Downloads/SSH-One: YARA.unknown_threat.UNOFFICIAL FOUND
+
+----------- SCAN SUMMARY -----------
+Known viruses: 1
+Engine version: 0.100.3
+Scanned directories: 1
+Scanned files: 8
+Infected files: 1
+Data scanned: 2.40 MB
+Data read: 2.40 MB (ratio 1.00:1)
+Time: 0.035 sec (0 m 0 s)

