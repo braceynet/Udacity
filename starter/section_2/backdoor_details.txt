@@ -1,7 +1,25 @@
 
 OSQUERY did not come preinstalling in the Ubuntu image provided by the instructor. While attempting to use 'apt-get install' to install the package, error message occured indicating the OSQUERY package did not exist in 'apt'.  I followed the installation instruction on the 'OSQUERY.IO' website and attempted to add OSQUERY to apt using the steps oulined there without success.  I also downloaded the provided Linux and Debian tarballs and was not able to install.  The Ubuntu software center was not able to locate OSQUERY either.  Bottom line, I spent hours trying to configure the system to accept the OSQUERY install and was not able to.  Please take a look at the Udacity Virtual Box image provided and determine how this can be fixed on your end please, this would save future students hours of frustration.  On a positive note, I now have ample experience in 'apt', 'yum', and with tarballs on a Linux system ;o)
 
-Findings in OSSEC --
+Findings using PSTREE-- 
+
+A review of PSTREE in the /home/ubuntu/ directory revealed a couple of suspicious services that should be investigated further to determine extent of negative impact to the network:
+
+     ├─rtkit-daemon───2*[{rtkit-daemon}]
+     ├─sshd
+     ├─systemd-logind
+     ├─systemd-udevd
+     ├─udisksd───4*[{udisksd}]
+     ├─upowerd───2*[{upowerd}]
+     ├─upstart-file-br
+     ├─upstart-socket-
+     ├─upstart-udev-br
+     └─whoopsie───2*[{whoopsie}]
+
+1. 'rtkit-daemon ----2*[{rtkit-daemon}] looks to be a root kit that could be a payload in an attempted exploitation of the network and would have to be looked at further to determine what it was designed to do.
+2. 'whoopsie ----2*[{whoopsie}] is also another suspicious process.  Not sure what this service is doing and would need to investigate further to determine malicious intent.
+
+Findings during OSSEC review --
 
 FINDING #1:
 
