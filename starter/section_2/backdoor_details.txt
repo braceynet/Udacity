@@ -1,0 +1,63 @@
+
+OSQUERY did not come preinstalling in the Ubuntu image provided by the instructor failed. While attempting to use 'apt-get install' to install the package, error message occured indicating the OSQUERY package did not exist in 'apt'.  I followed the installation instruction on the 'OSQUERY.IO' website and attempted to add OSQUERY to apt using the steps there without success.  I also downloaded the provided Linux and Debian tarballs and was not able to install.  The Ubuntu software center was not able to locate OSQUERY either.  Bottom line, I spent hours trying to configure the system to accept the OSQUERY install and was not able to.  Please take a look at the Udacity Virtual Box image provided and determine how this can be fixed on your end please, this would save future students hours of frustration.  On a positive note, I now have ample experience in 'apt', 'yum', and with tarballs on a Linux system ;o)
+
+Findings in OSSEC --
+
+FINDING #1:
+
+First event at 2022 Jul 05 21:48:44
+Last event at 2022 Jul 08 13:23:11
+
+Alert list
+2022 Jul 06 01:31:05Level:
+8 - New group added to the system
+Rule Id: 5901 
+Location: ubuntu-VirtualBox->/var/log/auth.log 
+
+Student OBSERVATION: The indication from the above 'Rule Id' is that the 'Wireshark' group account created on the system. If not approved by the base media team, this could be an indication of malware installing penetration tools to gain information about the system to enable full takeover. This would need to be investigated further using interview and other incident response techniques to determine malicious intent.
+
+FINDING #2:
+
+Alert list
+2022 Jul 05 23:50:51Level:
+5 - User login failed.
+Rule Id: 5503 
+Location: ubuntu-VirtualBox->/var/log/auth.log 
+Jul 5 23:50:51 ubuntu-VirtualBox compiz: pam_unix(unity:auth): authentication failure; logname= uid=1000 euid=1000 tty= ruser= rhost= user=ubuntu
+2022 Jul 05 23:50:51Level:
+5 - Password check failed.
+Rule Id: 5557 
+Location: ubuntu-VirtualBox->/var/log/auth.log 
+Jul 5 23:50:51 ubuntu-VirtualBox unix_chkpwd[7993]: password check failed for user (ubuntu)
+
+Student OBSERVATION: The indication from the above 'Rule Id' is that the user attempting logon could be trying to brute force or guess passwords to gain access to the system. Upon further investigation it was determined that the user account is the "ubuntu" user account, but further investigation would be needed to deterine if a valid user was attempting logon using this priviledged account or if was a malicious actor attempting to gain elevated access to the system.  Date/Time stamps could be used to determine if this was or was not the case.  Location of the logon attempts would have to be determined also to ensure if was from a valid/known terminal. 
+
+FINDING #3:
+
+First event at 2022 Jul 05 21:48:44
+Last event at 2022 Jul 08 13:23:11
+
+Alert list
+Level: 4 - First time user executed sudo.
+Rule Id: 5403 
+Location: ubuntu-VirtualBox->/var/log/auth.log 
+User: root
+Jul 7 22:09:13 ubuntu-VirtualBox sudo: root : TTY=pts/7 ; PWD=/home/ubuntu/Downloads ; USER=root ; COMMAND=/usr/bin/tee /etc/apt/sources.list.d/osquery.list
+
+Student OBSERVATION: The indication from the above 'Rule Id' is that a user successfully executed logon via the 'SUDO' user account to gain elevated privileges to the system via the CLI. Further investigation would be needed to deterine if a valid user was attempting logon using this priviledged account or if was a malicious actor attempting to gain elevated access to the system.  Date/Time stamps could be used to determine if this was or was not the case.  Location of the logon attempts would have to be determined also to ensure if was from a valid/known terminal. 
+
+FINDING #4:
+
+First event at 2022 Jul 05 21:48:44
+Last event at 2022 Jul 08 13:23:11
+
+Alert list
+MULTIPLE EVENTS/INSTANCES OF - 
+Level: 3 - Successful sudo to ROOT executed
+Rule Id: 5402 
+Location: ubuntu-VirtualBox->/var/log/auth.log 
+User: ubuntu
+Jul 8 13:23:11 ubuntu-VirtualBox sudo: ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
+
+Student OBSERVATION: The indication from the above 'Rule Id' is that a user successfully executed logon via the 'SUDO' user account to gain 'root' privileges to the system via the CLI. Further investigation would be needed to deterine if a valid user was attempting logon using this priviledged account or if was a malicious actor attempting to gain elevated access to the system.  Date/Time stamps could be used to determine if this was or was not the case.  Location of the logon attempts would have to be determined also to ensure if was from a valid/known terminal. 
+
