@@ -1,1 +1,27 @@
+Below is a list of additional best practice recommendations to provide an additinal level of securing the remote login process and password management in the organization:
 
+1. Whenever possible, use managed devices. 
+2. For every computer that connects to your network:
+  a. Enable encryption using BitLocker for Windows and FileVault for macOS.
+  b. Install antivirus protection and a firewall.
+  c. Ensure all operating systems and other software are currently supported by the vendor.
+  d. Keep all operating systems and other software up to date, with all critical updates installed.
+  e. Enforce a good password policy, disable automatic login, and enable automatic lock.
+  f. Enable “find my device” and remote lock/wipe capabilities.
+3. If unable to use managed devices, give all employees an information security guide that explains the security measures required and recommended for remote workers.
+4. Conduct security awareness training for your employees on regular basis.
+5. To ensure network security use Virtual Private Network (VPN) to secure access to the corporate network. Remember that your remote users might use public Wi-Fi   
+   networks, so SSH is recommended for application security.
+6. If possible, use two-factor authentication to protect VPN accounts and cloud services from unauthorized access.
+7. Avoid using Remote Desktop Protocol (RDP). If you have to use RDP:
+  e. Don’t expose RDP to the internet. All activity should go through a secure connection.
+  f. Avoid direct RDP connections. If users need desktop access, RDP sessions should be forced through Remote Desktop Gateway (ideally, in a DMZ).
+  g. Restrict RDP access to a whitelist of users and servers.
+8. Do not use default port numbers when setting up remote connections.
+9. If possible, restrict remote access to a whitelist of known-good IP addresses.
+10. Wherever possible, disable “everyone” and “anonymous” rights to restrict unauthorized access.
+11. Implement a strict security policy for third parties working in your network.
+
+These are just a few of the security prectices that should be used in any organization to reduce the risk of exposing sensitive comapany/PII data to attackers.  Internet facing networks have an even bigger challenge than that of closed neworks, but both are vulnerable to attack if an appropriate hardened security baseline is not properly established within the organization.
+
+Source: https://www.netwrix.com/remote_access_security_best_practices.html#:~:text=Enforce%20a%20good%20password%20policy%2C%20disable%20automatic%20login%2C,security%20measures%20required%20and%20recommended%20for%20remote%20workers.
