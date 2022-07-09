@@ -29,3 +29,13 @@ User: name="www-data" id=33
 Group: name="www-data" id=33
 
 We will change this and lock down Apache Server to a specifica Apache Group/Username in the following lines.
+
+root@ubuntu-VirtualBox:/etc/apache2# ls
+apache2.conf    conf-enabled  magic           mods-enabled  sites-available
+conf-available  envvars       mods-available  ports.conf    sites-enabled
+root@ubuntu-VirtualBox:/etc/apache2# vim apache2.conf
+
+Once in vim add the following lines to suppress Apache from broadcasting version number to guests:
+ServerSignature Off
+ServerTokens Prod
+----------------------Reference the lines below and note the changes---------------------------
