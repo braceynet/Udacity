@@ -1,0 +1,31 @@
+root@ubuntu-VirtualBox:/var/log/apache2# lsof -i | grep :http
+apache2   2514     root    4u  IPv6  14471      0t0  TCP *:http (LISTEN)
+apache2   2520 www-data    4u  IPv6  14471      0t0  TCP *:http (LISTEN)
+apache2   2521 www-data    4u  IPv6  14471      0t0  TCP *:http (LISTEN)
+apache2   2522 www-data    4u  IPv6  14471      0t0  TCP *:http (LISTEN)
+apache2   2523 www-data    4u  IPv6  14471      0t0  TCP *:http (LISTEN)
+apache2   2524 www-data    4u  IPv6  14471      0t0  TCP *:http (LISTEN)
+ubuntu-ge 3774   ubuntu    9u  IPv4  21523      0t0  TCP 10.0.2.15:49352->185.125.188.133:http (CLOSE_WAIT)
+
+root@ubuntu-VirtualBox:/var/log/apache2# apachectl -S
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+VirtualHost configuration:
+*:80                   127.0.1.1 (/etc/apache2/sites-enabled/000-default.conf:1)
+ServerRoot: "/etc/apache2"
+Main DocumentRoot: "/var/www"
+Main ErrorLog: "/var/log/apache2/error.log"
+Mutex default: dir="/var/lock/apache2" mechanism=fcntl 
+Mutex mpm-accept: using_defaults
+Mutex watchdog-callback: using_defaults
+PidFile: "/var/run/apache2/apache2.pid"
+Define: DUMP_VHOSTS
+Define: DUMP_RUN_CFG
+User: name="www-data" id=33
+Group: name="www-data" id=33
+root@ubuntu-VirtualBox:/var/log/apache2#
+
+Verified two ways above, the username and group the Apache Server was orginally running as are:
+User: name="www-data" id=33
+Group: name="www-data" id=33
+
+We will change this and lock down Apache Server to a specifica Apache Group/Username in the following lines.
