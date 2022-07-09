@@ -1,8 +1,9 @@
-CURRENT APACHE2 VERSION:
+----------------------Reference the lines below for CURRENT APACHE2 VERSION---------------------------
 root@ubuntu-VirtualBox:/etc/apache2# apache2 -v
 Server version: Apache/2.4.7 (Ubuntu)
 Server built:   Apr  3 2019 18:04:59
 
+----------------------Reference the lines below for current USER/GROUP Information---------------------------
 root@ubuntu-VirtualBox:/var/log/apache2# lsof -i | grep :http
 apache2   2514     root    4u  IPv6  14471      0t0  TCP *:http (LISTEN)
 apache2   2520 www-data    4u  IPv6  14471      0t0  TCP *:http (LISTEN)
@@ -33,17 +34,36 @@ Verified two ways above, the username and group the Apache Server was orginally 
 User: name="www-data" id=33
 Group: name="www-data" id=33
 
-We will change this and lock down Apache Server to a specifica Apache Group/Username in the following lines.
+----------------------Reference the lines below for LOCKING DOWN THE APACHE SERVER TO SPECIFIC USER/GROUP---------------------------
 
+We will change the access level for the Apache Server and lock it down to a specific Apache Group/Username in the following lines.
+
+# Create new user
+root@ubuntu-VirtualBox:/etc/apache2# useradd apache-user
+# Create password
+root@ubuntu-VirtualBox:/etc/apache2# passwd apache-user
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: password updated successfully
+# Move new user to the SUDO group
+root@ubuntu-VirtualBox:/etc/apache2# usermod -aG sudo apache-user
+# Create new group and add the newly created account to this new group
+root@ubuntu-VirtualBox:~# groupadd apache-group
+root@ubuntu-VirtualBox:~# usermod -g apache-group apache-user
+root@ubuntu-VirtualBox:~# groups apache-user
+apache-user : apache-group sudo
+
+
+----------------------Reference the lines below for changes to BROADCAST OF APACHE SERVER VERSION NUMBER on logon---------------------------
 root@ubuntu-VirtualBox:/etc/apache2# ls
 apache2.conf    conf-enabled  magic           mods-enabled  sites-available
 conf-available  envvars       mods-available  ports.conf    sites-enabled
 root@ubuntu-VirtualBox:/etc/apache2# vim apache2.conf
 
-Once in vim add the following lines to suppress Apache from broadcasting version number to guests:
+# Once in vim add the following lines to suppress Apache from broadcasting version number to guests:
 ServerSignature Off
 ServerTokens Prod
-----------------------Reference the lines below and note the changes---------------------------
+
 root@ubuntu-VirtualBox:/etc/apache2# vim apache2.conf
 root@ubuntu-VirtualBox:/etc/apache2# cat apache2.conf 
 # This is the main Apache server configuration file.  It contains the
