@@ -7,5 +7,5 @@ strings:
     $SSH_One = "SSH-One"
     $darkl0rd = "darkl0rd.com"
 condition:
-     all of them
+     any of them
 }
