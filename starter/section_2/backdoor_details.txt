@@ -16,8 +16,6 @@ A review of PSTREE in the /home/ubuntu/ directory revealed a couple of suspiciou
      ├─upstart-udev-br
      └─whoopsie───2*[{whoopsie}]
 
-1. 'whoopsie ----2*[{whoopsie}] is also another suspicious process.  Not sure what this service is doing and would need to investigate further to determine malicious intent.
-
 Findings using PS--
     To obtain security information:
           ps -eo euser,ruser,suser,fuser,f,comm,label
@@ -457,8 +455,6 @@ unconfined                      18811 ?        Sl     0:00 /usr/lib/i386-linux-g
 unconfined                      18825 ?        Sl     0:00 /usr/lib/i386-linux-gnu/unity-lens-
 unconfined                      18827 ?        Sl     0:00 /usr/bin/unity-scope-loader applica
 unconfined                      18915 pts/7    R+     0:00 ps axZ
-
-
 
 -eM to determine 
 
