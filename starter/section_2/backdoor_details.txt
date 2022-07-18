@@ -3,7 +3,7 @@ OSQUERY did not come preinstalling in the Ubuntu image provided by the instructo
 
 Findings using PSTREE-- 
 
-A review of PSTREE in the /home/ubuntu/ directory revealed a couple of suspicious services that should be investigated further to determine extent of negative impact to the network:
+A review of PSTREE in the /home/ubuntu/ directory revealed a couple of suspicious services that should be investigated further to determine extent of negative impact to the network.
 
      ├─rtkit-daemon───2*[{rtkit-daemon}]
      ├─sshd
@@ -16,66 +16,665 @@ A review of PSTREE in the /home/ubuntu/ directory revealed a couple of suspiciou
      ├─upstart-udev-br
      └─whoopsie───2*[{whoopsie}]
 
-1. 'rtkit-daemon ----2*[{rtkit-daemon}] looks to be a root kit that could be a payload in an attempted exploitation of the network and would have to be looked at further to determine what it was designed to do.
-2. 'whoopsie ----2*[{whoopsie}] is also another suspicious process.  Not sure what this service is doing and would need to investigate further to determine malicious intent.
+1. 'whoopsie ----2*[{whoopsie}] is also another suspicious process.  Not sure what this service is doing and would need to investigate further to determine malicious intent.
 
-Findings during OSSEC review --
+Findings using PS--
+    To obtain security information:
+          ps -eo euser,ruser,suser,fuser,f,comm,label
+          ps axZ
+          ps -eM
 
-FINDING #1:
+-eo euser,ruser,suser,fuser,f,comm,label to obtain the following information:
 
-First event at 2022 Jul 05 21:48:44
-Last event at 2022 Jul 08 13:23:11
+EUSER    RUSER    SUSER    FUSER    F COMMAND         LABEL
+root     root     root     root     4 init            unconfined
+root     root     root     root     1 kthreadd        unconfined
+root     root     root     root     1 ksoftirqd/0     unconfined
+root     root     root     root     1 kworker/0:0H    unconfined
+root     root     root     root     1 rcu_sched       unconfined
+root     root     root     root     1 rcu_bh          unconfined
+root     root     root     root     1 migration/0     unconfined
+root     root     root     root     5 watchdog/0      unconfined
+root     root     root     root     5 watchdog/1      unconfined
+root     root     root     root     1 migration/1     unconfined
+root     root     root     root     1 ksoftirqd/1     unconfined
+root     root     root     root     1 kworker/1:0H    unconfined
+root     root     root     root     1 khelper         unconfined
+root     root     root     root     5 kdevtmpfs       unconfined
+root     root     root     root     1 netns           unconfined
+root     root     root     root     1 writeback       unconfined
+root     root     root     root     1 kintegrityd     unconfined
+root     root     root     root     1 bioset          unconfined
+root     root     root     root     1 kblockd         unconfined
+root     root     root     root     1 ata_sff         unconfined
+root     root     root     root     1 khubd           unconfined
+root     root     root     root     1 md              unconfined
+root     root     root     root     1 devfreq_wq      unconfined
+root     root     root     root     1 kworker/1:1     unconfined
+root     root     root     root     1 khungtaskd      unconfined
+root     root     root     root     1 kswapd0         unconfined
+root     root     root     root     1 ksmd            unconfined
+root     root     root     root     1 khugepaged      unconfined
+root     root     root     root     1 fsnotify_mark   unconfined
+root     root     root     root     1 ecryptfs-kthrea unconfined
+root     root     root     root     1 crypto          unconfined
+root     root     root     root     1 kthrotld        unconfined
+root     root     root     root     1 scsi_eh_0       unconfined
+root     root     root     root     1 scsi_eh_1       unconfined
+root     root     root     root     1 deferwq         unconfined
+root     root     root     root     1 charger_manager unconfined
+root     root     root     root     1 kworker/u5:1    unconfined
+root     root     root     root     1 scsi_eh_2       unconfined
+root     root     root     root     1 jbd2/sda1-8     unconfined
+root     root     root     root     1 ext4-rsv-conver unconfined
+root     root     root     root     1 upstart-udev-br unconfined
+root     root     root     root     5 systemd-udevd   unconfined
+root     root     root     root     1 iprt-VBoxWQueue unconfined
+root     root     root     root     1 kpsmoused       unconfined
+root     root     root     root     1 upstart-socket- unconfined
+root     root     root     root     1 ttm_swap        unconfined
+message+ message+ message+ message+ 5 dbus-daemon     unconfined
+root     root     root     root     4 ModemManager    unconfined
+root     root     root     root     5 bluetoothd      unconfined
+root     root     root     root     4 systemd-logind  unconfined
+root     root     root     root     5 krfcommd        unconfined
+syslog   syslog   syslog   syslog   5 rsyslogd        unconfined
+avahi    avahi    avahi    avahi    5 avahi-daemon    unconfined
+avahi    avahi    avahi    avahi    1 avahi-daemon    unconfined
+root     root     root     root     1 upstart-file-br unconfined
+root     root     root     root     5 NetworkManager  unconfined
+root     root     root     root     4 polkitd         unconfined
+root     root     root     root     4 dhclient        /sbin/dhclient
+root     root     root     root     4 dhclient        /sbin/dhclient
+root     root     root     root     4 getty           unconfined
+root     root     root     root     4 getty           unconfined
+root     root     root     root     4 getty           unconfined
+root     root     root     root     4 getty           unconfined
+root     root     root     root     4 getty           unconfined
+root     root     root     root     4 sshd            unconfined
+daemon   root     daemon   daemon   5 atd             unconfined
+root     root     root     root     1 cron            unconfined
+root     root     root     root     5 irqbalance      unconfined
+root     root     root     root     4 cups-browsed    /usr/sbin/cups-browsed
+root     root     root     root     1 kauditd         unconfined
+daemon   root     daemon   daemon   5 atd             unconfined
+root     root     root     root     4 sh              unconfined
+root     root     root     root     0 remotesec       unconfined
+root     root     root     root     4 lightdm         unconfined
+mysql    mysql    mysql    mysql    4 mysqld          /usr/sbin/mysqld
+root     root     root     root     4 accounts-daemon unconfined
+root     root     root     root     1 acpid           unconfined
+whoopsie whoopsie whoopsie whoopsie 1 whoopsie        unconfined
+nobody   nobody   nobody   nobody   4 dnsmasq         unconfined
+root     root     root     root     4 Xorg            unconfined
+root     root     root     root     4 lightdm         unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   4 init            unconfined
+postgres postgres postgres postgres 0 postgres        unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 VBoxClient      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 VBoxClient      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 VBoxClient      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 VBoxClient      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 VBoxClient      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 VBoxClient      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 dbus-launch     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 ssh-agent       unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 dbus-daemon     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 dbus-daemon     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 notify-osd      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 upstart-event-b unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 window-stack-br unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 upstart-dbus-br unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 upstart-dbus-br unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 upstart-file-br unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 ibus-daemon     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 unity-settings- unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfsd           unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 hud-service     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfsd-fuse      unconfined
+postgres postgres postgres postgres 1 postgres        unconfined
+postgres postgres postgres postgres 1 postgres        unconfined
+postgres postgres postgres postgres 1 postgres        unconfined
+postgres postgres postgres postgres 1 postgres        unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 ibus-dconf      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 ibus-ui-gtk3    unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 at-spi-bus-laun unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gnome-session   unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 bamfdaemon      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 ibus-x11        unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 unity-panel-ser unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 at-spi-bus-laun unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 dbus-daemon     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 dbus-daemon     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfsd           unconfined
+root     root     root     root     4 upowerd         unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gnome-screensav unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   5 gnome-keyring-d unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-keybo unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-messa unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-bluet unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-power unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-datet unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-sound unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-print unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-sessi unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 ibus-engine-sim unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 indicator-appli unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   1 pulseaudio      unconfined
+rtkit    rtkit    rtkit    rtkit    4 rtkit-daemon    unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 evolution-sourc unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 notify-osd      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 compiz          unconfined
+colord   colord   colord   colord   4 colord          unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 dconf-service   unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 evolution-calen unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 nm-applet       unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 unity-fallback- unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 polkit-gnome-au unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 nautilus        unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfs-udisks2-vo unconfined
+root     root     root     root     4 udisksd         unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfs-afc-volume unconfined
+clamav   clamav   clamav   clamav   1 freshclam       /usr/bin/freshclam
+kernoops kernoops kernoops kernoops 1 kerneloops      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfs-mtp-volume unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfs-gphoto2-vo unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfsd-trash     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gconfd-2        unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfsd-burn      unconfined
+root     root     root     root     1 VBoxService     unconfined
+root     root     root     root     4 getty           unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 unity-webapps-s unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 telepathy-indic unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 mission-control /usr/lib/telepathy/mission-control-5
+ubuntu   ubuntu   ubuntu   ubuntu   0 zeitgeist-datah unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 zeitgeist-daemo unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 zeitgeist-fts   unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 cat             unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 update-notifier unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 deja-dup-monito unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 /usr/bin/termin unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gnome-pty-helpe unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 bash            unconfined
+root     root     root     root     4 sudo            unconfined
+root     root     root     root     4 bash            unconfined
+root     root     root     root     4 su              unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   4 bash            unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 at-spi2-registr unconfined
+root     root     root     root     4 sudo            unconfined
+root     root     root     root     4 bash            unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 bash            unconfined
+root     root     root     root     4 sudo            unconfined
+root     root     root     root     4 bash            unconfined
+root     root     root     root     4 su              unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   4 bash            unconfined
+root     root     root     root     4 sudo            unconfined
+root     root     root     root     4 bash            unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 gvfsd-http      unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 firefox         unconfined
+root     root     root     root     1 kworker/u5:0    unconfined
+root     root     root     root     1 kworker/0:0     unconfined
+root     root     root     root     1 kworker/u4:1    unconfined
+root     root     root     root     4 cupsd           /usr/sbin/cupsd
+lp       lp       lp       lp       4 dbus            /usr/sbin/cupsd
+root     root     root     root     1 kworker/0:2     unconfined
+root     root     root     root     4 dhclient        /sbin/dhclient
+root     root     root     root     1 kworker/1:2     unconfined
+ossecm   ossecm   ossecm   ossecm   5 ossec-maild     unconfined
+root     root     root     root     1 ossec-execd     unconfined
+ossec    ossec    ossec    ossec    5 ossec-analysisd unconfined
+root     root     root     root     5 ossec-logcollec unconfined
+root     root     root     root     5 ossec-syscheckd unconfined
+ossec    ossec    ossec    ossec    5 ossec-monitord  unconfined
+root     root     root     root     4 master          unconfined
+postfix  postfix  postfix  postfix  4 pickup          unconfined
+postfix  postfix  postfix  postfix  4 qmgr            unconfined
+postfix  postfix  postfix  postfix  4 tlsmgr          unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 update-manager  unconfined
+root     root     root     root     1 kworker/u4:0    unconfined
+root     root     root     root     0 man             unconfined
+root     root     root     root     0 pager           unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 oosplash        unconfined
+root     root     root     root     1 kworker/u5:2    unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 soffice.bin     unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 unity-scope-hom unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 unity-files-dae unconfined
+ubuntu   ubuntu   ubuntu   ubuntu   0 unity-scope-loa unconfined
+root     root     root     root     0 ps              unconfined
 
-Alert list
-2022 Jul 06 01:31:05Level:
-8 - New group added to the system
-Rule Id: 5901 
-Location: ubuntu-VirtualBox->/var/log/auth.log 
 
-Student OBSERVATION: The indication from the above 'Rule Id' is that the 'Wireshark' group account created on the system. If not approved by the base media team, this could be an indication of malware installing penetration tools to gain information about the system to enable full takeover. This would need to be investigated further using interview and other incident response techniques to determine malicious intent.
+axZ
 
-FINDING #2:
+LABEL                             PID TTY      STAT   TIME COMMAND
+unconfined                          1 ?        Ss     0:07 /sbin/init
+unconfined                          2 ?        S      0:00 [kthreadd]
+unconfined                          3 ?        S      0:33 [ksoftirqd/0]
+unconfined                          5 ?        S<     0:00 [kworker/0:0H]
+unconfined                          7 ?        S      0:02 [rcu_sched]
+unconfined                          8 ?        S      0:00 [rcu_bh]
+unconfined                          9 ?        S      0:06 [migration/0]
+unconfined                         10 ?        S      0:09 [watchdog/0]
+unconfined                         11 ?        S      0:15 [watchdog/1]
+unconfined                         12 ?        S      0:00 [migration/1]
+unconfined                         13 ?        S      0:39 [ksoftirqd/1]
+unconfined                         15 ?        S<     0:00 [kworker/1:0H]
+unconfined                         16 ?        S<     0:00 [khelper]
+unconfined                         17 ?        S      0:00 [kdevtmpfs]
+unconfined                         18 ?        S<     0:00 [netns]
+unconfined                         19 ?        S<     0:00 [writeback]
+unconfined                         20 ?        S<     0:00 [kintegrityd]
+unconfined                         21 ?        S<     0:00 [bioset]
+unconfined                         23 ?        S<     0:00 [kblockd]
+unconfined                         24 ?        S<     0:00 [ata_sff]
+unconfined                         25 ?        S      0:00 [khubd]
+unconfined                         26 ?        S<     0:00 [md]
+unconfined                         27 ?        S<     0:00 [devfreq_wq]
+unconfined                         29 ?        S      0:24 [kworker/1:1]
+unconfined                         31 ?        S      0:00 [khungtaskd]
+unconfined                         32 ?        S      0:01 [kswapd0]
+unconfined                         33 ?        SN     0:00 [ksmd]
+unconfined                         34 ?        SN     0:00 [khugepaged]
+unconfined                         35 ?        S      0:00 [fsnotify_mark]
+unconfined                         36 ?        S      0:00 [ecryptfs-kthrea]
+unconfined                         37 ?        S<     0:00 [crypto]
+unconfined                         49 ?        S<     0:00 [kthrotld]
+unconfined                         52 ?        S      0:00 [scsi_eh_0]
+unconfined                         53 ?        S      0:00 [scsi_eh_1]
+unconfined                         74 ?        S<     0:00 [deferwq]
+unconfined                         75 ?        S<     0:00 [charger_manager]
+unconfined                        124 ?        S<     0:00 [kworker/u5:1]
+unconfined                        125 ?        S      0:00 [scsi_eh_2]
+unconfined                        134 ?        S      0:00 [jbd2/sda1-8]
+unconfined                        135 ?        S<     0:00 [ext4-rsv-conver]
+unconfined                        263 ?        S      0:01 upstart-udev-bridge --daemon
+unconfined                        269 ?        Ss     0:00 /lib/systemd/systemd-udevd --daemon
+unconfined                        330 ?        S<     0:00 [iprt-VBoxWQueue]
+unconfined                        342 ?        S<     0:00 [kpsmoused]
+unconfined                        381 ?        S      0:00 upstart-socket-bridge --daemon
+unconfined                        399 ?        S<     0:00 [ttm_swap]
+unconfined                        562 ?        Ss     0:03 dbus-daemon --system --fork
+unconfined                        586 ?        Ssl    0:03 /usr/sbin/ModemManager
+unconfined                        597 ?        Ss     0:00 /usr/sbin/bluetoothd
+unconfined                        604 ?        Ss     0:00 /lib/systemd/systemd-logind
+unconfined                        631 ?        S<     0:00 [krfcommd]
+unconfined                        672 ?        Ssl    0:00 rsyslogd
+unconfined                        695 ?        S      0:06 avahi-daemon: running [ubuntu-Virtu
+unconfined                        697 ?        S      0:00 avahi-daemon: chroot helper
+unconfined                        707 ?        S      0:00 upstart-file-bridge --daemon
+unconfined                        709 ?        Ssl    0:01 NetworkManager
+unconfined                        715 ?        Sl     0:00 /usr/lib/policykit-1/polkitd --no-d
+/sbin/dhclient                    763 ?        S      0:00 /sbin/dhclient -d -sf /usr/lib/Netw
+/sbin/dhclient                    765 ?        S      0:00 /sbin/dhclient -d -sf /usr/lib/Netw
+unconfined                        823 tty4     Ss+    0:00 /sbin/getty -8 38400 tty4
+unconfined                        827 tty5     Ss+    0:00 /sbin/getty -8 38400 tty5
+unconfined                        835 tty2     Ss+    0:00 /sbin/getty -8 38400 tty2
+unconfined                        836 tty3     Ss+    0:00 /sbin/getty -8 38400 tty3
+unconfined                        840 tty6     Ss+    0:00 /sbin/getty -8 38400 tty6
+unconfined                        883 ?        Ss     0:00 /usr/sbin/sshd -D
+unconfined                        898 ?        Ss     0:00 atd
+unconfined                        899 ?        Ss     0:00 cron
+unconfined                        902 ?        Ss     0:01 /usr/sbin/irqbalance
+/usr/sbin/cups-browsed            911 ?        Ss     0:00 /usr/sbin/cups-browsed
+unconfined                        927 ?        S      0:00 [kauditd]
+unconfined                        944 ?        S      0:00 atd
+unconfined                        946 ?        SN     0:00 sh
+unconfined                        948 ?        SN     0:00 /tmp/remotesec -k -l 56565
+unconfined                        953 ?        Ssl    0:00 lightdm
+/usr/sbin/mysqld                  961 ?        Ssl    0:22 /usr/sbin/mysqld
+unconfined                        971 ?        Sl     0:00 /usr/lib/accountsservice/accounts-d
+unconfined                        974 ?        Ss     0:00 acpid -c /etc/acpi/events -s /var/r
+unconfined                        976 ?        Ssl    0:01 whoopsie
+unconfined                       1024 ?        S      0:05 /usr/sbin/dnsmasq --no-resolv --kee
+unconfined                       1085 tty7     Ssl+  68:01 /usr/bin/X -core :0 -seat seat0 -au
+unconfined                       1226 ?        Sl     0:00 lightdm --session-child 12 15
+unconfined                       1264 ?        Ss     0:00 init --user
+unconfined                       1284 ?        S      0:00 /usr/lib/postgresql/8.4/bin/postgre
+unconfined                       1332 ?        S      0:00 /usr/bin/VBoxClient --clipboard
+unconfined                       1333 ?        Sl     0:00 /usr/bin/VBoxClient --clipboard
+unconfined                       1343 ?        S      0:00 /usr/bin/VBoxClient --seamless
+unconfined                       1344 ?        Sl     0:00 /usr/bin/VBoxClient --seamless
+unconfined                       1351 ?        S      0:00 /usr/bin/VBoxClient --draganddrop
+unconfined                       1352 ?        Sl     1:51 /usr/bin/VBoxClient --draganddrop
+unconfined                       1375 ?        S      0:00 dbus-launch --autolaunch=0824ea98f9
+unconfined                       1378 ?        Ss     0:00 ssh-agent -s
+unconfined                       1384 ?        Ss     0:00 //bin/dbus-daemon --fork --print-pi
+unconfined                       1386 ?        Ss     0:03 dbus-daemon --fork --session --addr
+unconfined                       1389 ?        Sl     0:00 /usr/lib/i386-linux-gnu/notify-osd
+unconfined                       1397 ?        Ss     0:00 upstart-event-bridge
+unconfined                       1402 ?        Ss     0:00 /usr/lib/i386-linux-gnu/hud/window-
+unconfined                       1416 ?        S      0:00 upstart-dbus-bridge --daemon --sess
+unconfined                       1417 ?        S      0:00 upstart-dbus-bridge --daemon --syst
+unconfined                       1419 ?        S      0:00 upstart-file-bridge --daemon --user
+unconfined                       1422 ?        Ssl    0:11 /usr/bin/ibus-daemon --daemonize --
+unconfined                       1436 ?        Ssl    0:01 /usr/lib/unity-settings-daemon/unit
+unconfined                       1440 ?        Sl     0:00 /usr/lib/gvfs/gvfsd
+unconfined                       1443 ?        Ssl    0:00 /usr/lib/i386-linux-gnu/hud/hud-ser
+unconfined                       1449 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-fuse /run/user/
+unconfined                       1450 ?        Ss     0:09 postgres: writer process           
+unconfined                       1451 ?        Ss     0:08 postgres: wal writer process       
+unconfined                       1453 ?        Ss     0:02 postgres: autovacuum launcher proce
+unconfined                       1454 ?        Ss     0:01 postgres: stats collector process  
+unconfined                       1456 ?        Sl     0:00 /usr/lib/ibus/ibus-dconf
+unconfined                       1457 ?        Sl     0:02 /usr/lib/ibus/ibus-ui-gtk3
+unconfined                       1459 ?        Ssl    0:00 /usr/lib/at-spi2-core/at-spi-bus-la
+unconfined                       1460 ?        Ssl    0:00 gnome-session --session=ubuntu
+unconfined                       1463 ?        Sl     0:01 /usr/lib/i386-linux-gnu/bamf/bamfda
+unconfined                       1464 ?        Sl     0:00 /usr/lib/ibus/ibus-x11 --kill-daemo
+unconfined                       1465 ?        Ssl    0:05 /usr/lib/unity/unity-panel-service
+unconfined                       1475 ?        Sl     0:00 /usr/lib/at-spi2-core/at-spi-bus-la
+unconfined                       1480 ?        S      0:00 /bin/dbus-daemon --config-file=/etc
+unconfined                       1490 ?        S      0:00 /bin/dbus-daemon --config-file=/etc
+unconfined                       1516 ?        Sl     0:00 /usr/lib/gvfs/gvfsd
+unconfined                       1538 ?        Sl     0:01 /usr/lib/upower/upowerd
+unconfined                       1543 ?        Sl     0:00 /usr/bin/gnome-screensaver --no-dae
+unconfined                       1594 ?        SLl    0:00 /usr/bin/gnome-keyring-daemon --sta
+unconfined                       1616 ?        Sl     0:00 /usr/lib/i386-linux-gnu/indicator-k
+unconfined                       1626 ?        Ssl    0:00 /usr/lib/i386-linux-gnu/indicator-m
+unconfined                       1628 ?        Ssl    0:00 /usr/lib/i386-linux-gnu/indicator-b
+unconfined                       1630 ?        Ssl    0:01 /usr/lib/i386-linux-gnu/indicator-p
+unconfined                       1636 ?        Ssl    0:00 /usr/lib/i386-linux-gnu/indicator-d
+unconfined                       1641 ?        Ssl    0:00 /usr/lib/i386-linux-gnu/indicator-s
+unconfined                       1642 ?        Ssl    0:00 /usr/lib/i386-linux-gnu/indicator-p
+unconfined                       1648 ?        Ssl    0:00 /usr/lib/i386-linux-gnu/indicator-s
+unconfined                       1662 ?        Sl     0:02 /usr/lib/ibus/ibus-engine-simple
+unconfined                       1664 ?        Ssl    0:01 /usr/lib/i386-linux-gnu/indicator-a
+unconfined                       1679 ?        Sl     0:00 /usr/bin/pulseaudio --start --log-t
+unconfined                       1714 ?        SNl    0:00 /usr/lib/rtkit/rtkit-daemon
+unconfined                       1731 ?        Sl     0:00 /usr/lib/evolution/evolution-source
+unconfined                       1904 ?        Sl     0:00 /usr/lib/i386-linux-gnu/notify-osd
+unconfined                       1972 ?        Sl    15:47 compiz
+unconfined                       2002 ?        Sl     0:00 /usr/lib/colord/colord
+unconfined                       2006 ?        Sl     0:00 /usr/lib/dconf/dconf-service
+unconfined                       2036 ?        Sl     0:01 /usr/lib/evolution/evolution-calend
+unconfined                       2056 ?        Sl     0:02 nm-applet
+unconfined                       2076 ?        Sl     0:00 /usr/lib/unity-settings-daemon/unit
+unconfined                       2077 ?        Sl     0:00 /usr/lib/policykit-1-gnome/polkit-g
+unconfined                       2079 ?        Sl     0:02 nautilus -n
+unconfined                       2201 ?        Sl     0:00 /usr/lib/gvfs/gvfs-udisks2-volume-m
+unconfined                       2241 ?        Sl     0:00 /usr/lib/udisks2/udisksd --no-debug
+unconfined                       2310 ?        Sl     0:00 /usr/lib/gvfs/gvfs-afc-volume-monit
+/usr/bin/freshclam               2311 ?        Ss     0:37 /usr/bin/freshclam -d --quiet --con
+unconfined                       2323 ?        Ss     0:00 /usr/sbin/kerneloops
+unconfined                       2326 ?        Sl     0:00 /usr/lib/gvfs/gvfs-mtp-volume-monit
+unconfined                       2334 ?        Sl     0:00 /usr/lib/gvfs/gvfs-gphoto2-volume-m
+unconfined                       2381 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-trash --spawner
+unconfined                       2461 ?        S      0:00 /usr/lib/i386-linux-gnu/gconf/gconf
+unconfined                       2464 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-burn --spawner 
+unconfined                       2488 ?        Sl     0:04 /usr/sbin/VBoxService --pidfile /va
+unconfined                       2569 tty1     Ss+    0:00 /sbin/getty -8 38400 tty1
+unconfined                       2662 ?        Sl     0:00 /usr/lib/libunity-webapps/unity-web
+unconfined                       2705 ?        Sl     0:00 telepathy-indicator
+/usr/lib/telepathy/mission-control-5 2717 ?    Sl     0:01 /usr/lib/telepathy/mission-control-
+unconfined                       2745 ?        Sl     0:00 zeitgeist-datahub
+unconfined                       2750 ?        Sl     0:00 /usr/bin/zeitgeist-daemon
+unconfined                       2756 ?        Sl     0:00 /usr/lib/i386-linux-gnu/zeitgeist-f
+unconfined                       2769 ?        S      0:00 /bin/cat
+unconfined                       2916 ?        Sl     0:00 update-notifier
+unconfined                       2983 ?        Sl   1741:47 /usr/lib/i386-linux-gnu/deja-dup/d
+unconfined                       4520 ?        Sl     0:28 /usr/bin/python /usr/bin/terminator
+unconfined                       4534 ?        S      0:00 gnome-pty-helper
+unconfined                       5306 pts/7    Ss     0:00 -/bin/bash
+unconfined                       5356 pts/7    S      0:00 sudo -i
+unconfined                       5357 pts/7    S      0:00 -bash
+unconfined                       5505 pts/7    S      0:00 su ubuntu
+unconfined                       5506 pts/7    S      0:00 bash
+unconfined                       5584 ?        Sl     0:00 /usr/lib/at-spi2-core/at-spi2-regis
+unconfined                       5690 pts/7    S      0:00 sudo -i
+unconfined                       5691 pts/7    S      0:00 -bash
+unconfined                       5936 pts/0    Ss     0:00 -/bin/bash
+unconfined                       5988 pts/0    S      0:00 sudo -i
+unconfined                       5989 pts/0    S      0:00 -bash
+unconfined                       9342 pts/0    S      0:00 su ubuntu
+unconfined                       9343 pts/0    S      0:00 bash
+unconfined                       9357 pts/0    S      0:00 sudo -i
+unconfined                       9358 pts/0    S      0:00 -bash
+unconfined                       9456 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-http --spawner 
+unconfined                       9496 ?        Sl     2:21 /usr/lib/firefox/firefox https://gi
+unconfined                       9853 ?        R      0:05 [kworker/0:0]
+unconfined                      12103 ?        S      0:00 [kworker/u4:1]
+/usr/sbin/cupsd                 12357 ?        Ss     0:00 /usr/sbin/cupsd -f
+/usr/sbin/cupsd                 12360 ?        S      0:00 /usr/lib/cups/notifier/dbus dbus://
+unconfined                      12394 ?        S      0:00 [kworker/0:2]
+/sbin/dhclient                  12395 ?        S      0:00 /sbin/dhclient -d -sf /usr/lib/Netw
+unconfined                      14575 ?        S      0:00 [kworker/1:2]
+unconfined                      14949 ?        S      0:00 /var/ossec/bin/ossec-maild
+unconfined                      14953 ?        S      0:00 /var/ossec/bin/ossec-execd
+unconfined                      14957 ?        S      0:01 /var/ossec/bin/ossec-analysisd
+unconfined                      14961 ?        S      0:00 /var/ossec/bin/ossec-logcollector
+unconfined                      14965 ?        S      0:05 /var/ossec/bin/ossec-syscheckd
+unconfined                      14968 ?        S      0:00 /var/ossec/bin/ossec-monitord
+unconfined                      16445 ?        Ss     0:00 /usr/lib/postfix/master
+unconfined                      16447 ?        S      0:00 pickup -l -t unix -u -c
+unconfined                      16448 ?        S      0:00 qmgr -l -t unix -u
+unconfined                      16474 ?        S      0:00 tlsmgr -l -t unix -u -c
+unconfined                      16494 ?        SNl    0:02 /usr/bin/python3 /usr/bin/update-ma
+unconfined                      18677 ?        S      0:00 [kworker/u4:0]
+unconfined                      18743 pts/0    S+     0:00 man ps
+unconfined                      18752 pts/0    S+     0:00 pager -s
+unconfined                      18761 ?        Sl     0:00 /usr/lib/libreoffice/program/oospla
+unconfined                      18776 ?        S<     0:00 [kworker/u5:2]
+unconfined                      18792 ?        Sl     0:04 /usr/lib/libreoffice/program/soffic
+unconfined                      18811 ?        Sl     0:00 /usr/lib/i386-linux-gnu/unity-scope
+unconfined                      18825 ?        Sl     0:00 /usr/lib/i386-linux-gnu/unity-lens-
+unconfined                      18827 ?        Sl     0:00 /usr/bin/unity-scope-loader applica
+unconfined                      18915 pts/7    R+     0:00 ps axZ
 
-Alert list
-2022 Jul 05 23:50:51Level:
-5 - User login failed.
-Rule Id: 5503 
-Location: ubuntu-VirtualBox->/var/log/auth.log 
-Jul 5 23:50:51 ubuntu-VirtualBox compiz: pam_unix(unity:auth): authentication failure; logname= uid=1000 euid=1000 tty= ruser= rhost= user=ubuntu
-2022 Jul 05 23:50:51Level:
-5 - Password check failed.
-Rule Id: 5557 
-Location: ubuntu-VirtualBox->/var/log/auth.log 
-Jul 5 23:50:51 ubuntu-VirtualBox unix_chkpwd[7993]: password check failed for user (ubuntu)
 
-Student OBSERVATION: The indication from the above 'Rule Id' is that the user attempting logon could be trying to brute force or guess passwords to gain access to the system. Upon further investigation it was determined that the user account is the "ubuntu" user account, but further investigation would be needed to deterine if a valid user was attempting logon using this priviledged account or if was a malicious actor attempting to gain elevated access to the system.  Date/Time stamps could be used to determine if this was or was not the case.  Location of the logon attempts would have to be determined also to ensure if was from a valid/known terminal. 
 
-FINDING #3:
+-eM to determine 
 
-First event at 2022 Jul 05 21:48:44
-Last event at 2022 Jul 08 13:23:11
+root@ubuntu-VirtualBox:/home# ps -eM
+LABEL                             PID TTY          TIME CMD
+unconfined                          1 ?        00:00:07 init
+unconfined                          2 ?        00:00:00 kthreadd
+unconfined                          3 ?        00:00:33 ksoftirqd/0
+unconfined                          5 ?        00:00:00 kworker/0:0H
+unconfined                          7 ?        00:00:02 rcu_sched
+unconfined                          8 ?        00:00:00 rcu_bh
+unconfined                          9 ?        00:00:06 migration/0
+unconfined                         10 ?        00:00:09 watchdog/0
+unconfined                         11 ?        00:00:15 watchdog/1
+unconfined                         12 ?        00:00:00 migration/1
+unconfined                         13 ?        00:00:39 ksoftirqd/1
+unconfined                         15 ?        00:00:00 kworker/1:0H
+unconfined                         16 ?        00:00:00 khelper
+unconfined                         17 ?        00:00:00 kdevtmpfs
+unconfined                         18 ?        00:00:00 netns
+unconfined                         19 ?        00:00:00 writeback
+unconfined                         20 ?        00:00:00 kintegrityd
+unconfined                         21 ?        00:00:00 bioset
+unconfined                         23 ?        00:00:00 kblockd
+unconfined                         24 ?        00:00:00 ata_sff
+unconfined                         25 ?        00:00:00 khubd
+unconfined                         26 ?        00:00:00 md
+unconfined                         27 ?        00:00:00 devfreq_wq
+unconfined                         29 ?        00:00:24 kworker/1:1
+unconfined                         31 ?        00:00:00 khungtaskd
+unconfined                         32 ?        00:00:01 kswapd0
+unconfined                         33 ?        00:00:00 ksmd
+unconfined                         34 ?        00:00:00 khugepaged
+unconfined                         35 ?        00:00:00 fsnotify_mark
+unconfined                         36 ?        00:00:00 ecryptfs-kthrea
+unconfined                         37 ?        00:00:00 crypto
+unconfined                         49 ?        00:00:00 kthrotld
+unconfined                         52 ?        00:00:00 scsi_eh_0
+unconfined                         53 ?        00:00:00 scsi_eh_1
+unconfined                         74 ?        00:00:00 deferwq
+unconfined                         75 ?        00:00:00 charger_manager
+unconfined                        124 ?        00:00:00 kworker/u5:1
+unconfined                        125 ?        00:00:00 scsi_eh_2
+unconfined                        134 ?        00:00:00 jbd2/sda1-8
+unconfined                        135 ?        00:00:00 ext4-rsv-conver
+unconfined                        263 ?        00:00:01 upstart-udev-br
+unconfined                        269 ?        00:00:00 systemd-udevd
+unconfined                        330 ?        00:00:00 iprt-VBoxWQueue
+unconfined                        342 ?        00:00:00 kpsmoused
+unconfined                        381 ?        00:00:00 upstart-socket-
+unconfined                        399 ?        00:00:00 ttm_swap
+unconfined                        562 ?        00:00:03 dbus-daemon
+unconfined                        586 ?        00:00:03 ModemManager
+unconfined                        597 ?        00:00:00 bluetoothd
+unconfined                        604 ?        00:00:00 systemd-logind
+unconfined                        631 ?        00:00:00 krfcommd
+unconfined                        672 ?        00:00:00 rsyslogd
+unconfined                        695 ?        00:00:06 avahi-daemon
+unconfined                        697 ?        00:00:00 avahi-daemon
+unconfined                        707 ?        00:00:00 upstart-file-br
+unconfined                        709 ?        00:00:01 NetworkManager
+unconfined                        715 ?        00:00:00 polkitd
+/sbin/dhclient                    763 ?        00:00:00 dhclient
+/sbin/dhclient                    765 ?        00:00:00 dhclient
+unconfined                        823 tty4     00:00:00 getty
+unconfined                        827 tty5     00:00:00 getty
+unconfined                        835 tty2     00:00:00 getty
+unconfined                        836 tty3     00:00:00 getty
+unconfined                        840 tty6     00:00:00 getty
+unconfined                        883 ?        00:00:00 sshd
+unconfined                        898 ?        00:00:00 atd
+unconfined                        899 ?        00:00:00 cron
+unconfined                        902 ?        00:00:01 irqbalance
+/usr/sbin/cups-browsed            911 ?        00:00:00 cups-browsed
+unconfined                        927 ?        00:00:00 kauditd
+unconfined                        944 ?        00:00:00 atd
+unconfined                        946 ?        00:00:00 sh
+unconfined                        948 ?        00:00:00 remotesec
+unconfined                        953 ?        00:00:00 lightdm
+/usr/sbin/mysqld                  961 ?        00:00:22 mysqld
+unconfined                        971 ?        00:00:00 accounts-daemon
+unconfined                        974 ?        00:00:00 acpid
+unconfined                        976 ?        00:00:01 whoopsie
+unconfined                       1024 ?        00:00:05 dnsmasq
+unconfined                       1085 tty7     01:08:29 Xorg
+unconfined                       1226 ?        00:00:00 lightdm
+unconfined                       1264 ?        00:00:00 init
+unconfined                       1284 ?        00:00:00 postgres
+unconfined                       1332 ?        00:00:00 VBoxClient
+unconfined                       1333 ?        00:00:00 VBoxClient
+unconfined                       1343 ?        00:00:00 VBoxClient
+unconfined                       1344 ?        00:00:00 VBoxClient
+unconfined                       1351 ?        00:00:00 VBoxClient
+unconfined                       1352 ?        00:01:52 VBoxClient
+unconfined                       1375 ?        00:00:00 dbus-launch
+unconfined                       1378 ?        00:00:00 ssh-agent
+unconfined                       1384 ?        00:00:00 dbus-daemon
+unconfined                       1386 ?        00:00:03 dbus-daemon
+unconfined                       1389 ?        00:00:00 notify-osd
+unconfined                       1397 ?        00:00:00 upstart-event-b
+unconfined                       1402 ?        00:00:00 window-stack-br
+unconfined                       1416 ?        00:00:00 upstart-dbus-br
+unconfined                       1417 ?        00:00:00 upstart-dbus-br
+unconfined                       1419 ?        00:00:00 upstart-file-br
+unconfined                       1422 ?        00:00:11 ibus-daemon
+unconfined                       1436 ?        00:00:01 unity-settings-
+unconfined                       1440 ?        00:00:00 gvfsd
+unconfined                       1443 ?        00:00:00 hud-service
+unconfined                       1449 ?        00:00:00 gvfsd-fuse
+unconfined                       1450 ?        00:00:09 postgres
+unconfined                       1451 ?        00:00:08 postgres
+unconfined                       1453 ?        00:00:02 postgres
+unconfined                       1454 ?        00:00:01 postgres
+unconfined                       1456 ?        00:00:00 ibus-dconf
+unconfined                       1457 ?        00:00:02 ibus-ui-gtk3
+unconfined                       1459 ?        00:00:00 at-spi-bus-laun
+unconfined                       1460 ?        00:00:00 gnome-session
+unconfined                       1463 ?        00:00:01 bamfdaemon
+unconfined                       1464 ?        00:00:00 ibus-x11
+unconfined                       1465 ?        00:00:05 unity-panel-ser
+unconfined                       1475 ?        00:00:00 at-spi-bus-laun
+unconfined                       1480 ?        00:00:00 dbus-daemon
+unconfined                       1490 ?        00:00:00 dbus-daemon
+unconfined                       1516 ?        00:00:00 gvfsd
+unconfined                       1538 ?        00:00:01 upowerd
+unconfined                       1543 ?        00:00:00 gnome-screensav
+unconfined                       1594 ?        00:00:00 gnome-keyring-d
+unconfined                       1616 ?        00:00:00 indicator-keybo
+unconfined                       1626 ?        00:00:00 indicator-messa
+unconfined                       1628 ?        00:00:00 indicator-bluet
+unconfined                       1630 ?        00:00:01 indicator-power
+unconfined                       1636 ?        00:00:00 indicator-datet
+unconfined                       1641 ?        00:00:00 indicator-sound
+unconfined                       1642 ?        00:00:00 indicator-print
+unconfined                       1648 ?        00:00:00 indicator-sessi
+unconfined                       1662 ?        00:00:02 ibus-engine-sim
+unconfined                       1664 ?        00:00:01 indicator-appli
+unconfined                       1679 ?        00:00:00 pulseaudio
+unconfined                       1714 ?        00:00:00 rtkit-daemon
+unconfined                       1731 ?        00:00:00 evolution-sourc
+unconfined                       1904 ?        00:00:00 notify-osd
+unconfined                       1972 ?        00:16:01 compiz
+unconfined                       2002 ?        00:00:00 colord
+unconfined                       2006 ?        00:00:00 dconf-service
+unconfined                       2036 ?        00:00:01 evolution-calen
+unconfined                       2056 ?        00:00:02 nm-applet
+unconfined                       2076 ?        00:00:00 unity-fallback-
+unconfined                       2077 ?        00:00:00 polkit-gnome-au
+unconfined                       2079 ?        00:00:02 nautilus
+unconfined                       2201 ?        00:00:00 gvfs-udisks2-vo
+unconfined                       2241 ?        00:00:00 udisksd
+unconfined                       2310 ?        00:00:00 gvfs-afc-volume
+/usr/bin/freshclam               2311 ?        00:00:37 freshclam
+unconfined                       2323 ?        00:00:00 kerneloops
+unconfined                       2326 ?        00:00:00 gvfs-mtp-volume
+unconfined                       2334 ?        00:00:00 gvfs-gphoto2-vo
+unconfined                       2381 ?        00:00:00 gvfsd-trash
+unconfined                       2461 ?        00:00:00 gconfd-2
+unconfined                       2464 ?        00:00:00 gvfsd-burn
+unconfined                       2488 ?        00:00:04 VBoxService
+unconfined                       2569 tty1     00:00:00 getty
+unconfined                       2662 ?        00:00:00 unity-webapps-s
+unconfined                       2705 ?        00:00:00 telepathy-indic
+/usr/lib/telepathy/mission-control-5 2717 ?    00:00:01 mission-control
+unconfined                       2745 ?        00:00:00 zeitgeist-datah
+unconfined                       2750 ?        00:00:00 zeitgeist-daemo
+unconfined                       2756 ?        00:00:00 zeitgeist-fts
+unconfined                       2769 ?        00:00:00 cat
+unconfined                       2916 ?        00:00:00 update-notifier
+unconfined                       2983 ?        1-05:01:47 deja-dup-monito
+unconfined                       4520 ?        00:00:29 /usr/bin/termin
+unconfined                       4534 ?        00:00:00 gnome-pty-helpe
+unconfined                       5306 pts/7    00:00:00 bash
+unconfined                       5356 pts/7    00:00:00 sudo
+unconfined                       5357 pts/7    00:00:00 bash
+unconfined                       5505 pts/7    00:00:00 su
+unconfined                       5506 pts/7    00:00:00 bash
+unconfined                       5584 ?        00:00:00 at-spi2-registr
+unconfined                       5690 pts/7    00:00:00 sudo
+unconfined                       5691 pts/7    00:00:00 bash
+unconfined                       5936 pts/0    00:00:00 bash
+unconfined                       5988 pts/0    00:00:00 sudo
+unconfined                       5989 pts/0    00:00:00 bash
+unconfined                       9342 pts/0    00:00:00 su
+unconfined                       9343 pts/0    00:00:00 bash
+unconfined                       9357 pts/0    00:00:00 sudo
+unconfined                       9358 pts/0    00:00:00 bash
+unconfined                       9456 ?        00:00:00 gvfsd-http
+unconfined                       9496 ?        00:02:21 firefox
+unconfined                       9853 ?        00:00:05 kworker/0:0
+unconfined                      12103 ?        00:00:00 kworker/u4:1
+/usr/sbin/cupsd                 12357 ?        00:00:00 cupsd
+/usr/sbin/cupsd                 12360 ?        00:00:00 dbus
+unconfined                      12394 ?        00:00:00 kworker/0:2
+/sbin/dhclient                  12395 ?        00:00:00 dhclient
+unconfined                      14575 ?        00:00:00 kworker/1:2
+unconfined                      14949 ?        00:00:00 ossec-maild
+unconfined                      14953 ?        00:00:00 ossec-execd
+unconfined                      14957 ?        00:00:01 ossec-analysisd
+unconfined                      14961 ?        00:00:00 ossec-logcollec
+unconfined                      14965 ?        00:00:05 ossec-syscheckd
+unconfined                      14968 ?        00:00:00 ossec-monitord
+unconfined                      16445 ?        00:00:00 master
+unconfined                      16447 ?        00:00:00 pickup
+unconfined                      16448 ?        00:00:00 qmgr
+unconfined                      16474 ?        00:00:00 tlsmgr
+unconfined                      16494 ?        00:00:02 update-manager
+unconfined                      18677 ?        00:00:00 kworker/u4:0
+unconfined                      18743 pts/0    00:00:00 man
+unconfined                      18752 pts/0    00:00:00 pager
+unconfined                      18761 ?        00:00:00 oosplash
+unconfined                      18776 ?        00:00:00 kworker/u5:2
+unconfined                      18792 ?        00:00:06 soffice.bin
+unconfined                      18811 ?        00:00:00 unity-scope-hom
+unconfined                      18825 ?        00:00:00 unity-files-dae
+unconfined                      18827 ?        00:00:00 unity-scope-loa
+unconfined                      18923 pts/7    00:00:00 ps
 
-Alert list
-Level: 4 - First time user executed sudo.
-Rule Id: 5403 
-Location: ubuntu-VirtualBox->/var/log/auth.log 
-User: root
-Jul 7 22:09:13 ubuntu-VirtualBox sudo: root : TTY=pts/7 ; PWD=/home/ubuntu/Downloads ; USER=root ; COMMAND=/usr/bin/tee /etc/apt/sources.list.d/osquery.list
-
-Student OBSERVATION: The indication from the above 'Rule Id' is that a user successfully executed logon via the 'SUDO' user account to gain elevated privileges to the system via the CLI. Further investigation would be needed to deterine if a valid user was attempting logon using this priviledged account or if was a malicious actor attempting to gain elevated access to the system.  Date/Time stamps could be used to determine if this was or was not the case.  Location of the logon attempts would have to be determined also to ensure if was from a valid/known terminal. 
-
-FINDING #4:
-
-First event at 2022 Jul 05 21:48:44
-Last event at 2022 Jul 08 13:23:11
-
-Alert list
-MULTIPLE EVENTS/INSTANCES OF - 
-Level: 3 - Successful sudo to ROOT executed
-Rule Id: 5402 
-Location: ubuntu-VirtualBox->/var/log/auth.log 
-User: ubuntu
-Jul 8 13:23:11 ubuntu-VirtualBox sudo: ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/bin/bash
-
-Student OBSERVATION: The indication from the above 'Rule Id' is that a user successfully executed logon via the 'SUDO' user account to gain 'root' privileges to the system via the CLI. Further investigation would be needed to deterine if a valid user was attempting logon using this priviledged account or if was a malicious actor attempting to gain elevated access to the system.  Date/Time stamps could be used to determine if this was or was not the case.  Location of the logon attempts would have to be determined also to ensure if was from a valid/known terminal. 
 
