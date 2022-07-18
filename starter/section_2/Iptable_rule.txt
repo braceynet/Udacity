@@ -1,1 +1,9 @@
+INITIAL SUBMISSION:
 iptables -A OUTPUT -p tcp --dport 7753 -m string --string "darkl0rd.com" --algo kmp -j DROP
+
+
+NEW SUBMISSION FOLLOWING FEEDBACK:
+iptables -A INPUT -i eth0 -p tcp --dport 22 -j DROP
+
+SOURCE:
+https://unix.stackexchange.com/questions/397481/use-iptables-to-block-ssh
